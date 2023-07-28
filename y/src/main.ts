@@ -41,6 +41,15 @@ new Vue({
     resetSelection() {
         this.selectedNames = [];
     },
+    getPointsClass(points) {
+        if (points == 4) {
+          return 'riderElement riderElement--highPoints';
+        } else if (points == 2) {
+          return 'riderElement riderElement--mediumPoints';
+        } else {
+          return 'riderElement riderElement--lowPoints';
+        }
+      },
   },
   watch: {
     selectedNames: function(newNames) {
