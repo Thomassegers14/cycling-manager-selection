@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <style>
+    .teamContainer {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .teamElement {
+      width: calc(100% / 3);
+    }
+
+    .teamTitle {
+      font-size: 1rem;
+    }
+
+    .riderElement {
+      font-size: 0.8rem;
+      display: block;
+      margin: 0;
+    }
+
+  </style>
+  <body>
+    <div id="app">
+      <h1>Naamselectie Spel</h1>
+      <form @submit.prevent="submitSelection">
+        <div class="teamContainer">
+          <div v-for="(group, index) in groupedData" :key="index" class="teamElement">
+            <h2 class="teamTitle">{{ group.team }}</h2>
+              <label v-for="(rider, riderIndex) in group.riders" :key="riderIndex" class="riderElement">
+                <input type="checkbox" v-model="selectedNames" :value="rider.rider_name" :disabled="selectedNames.length >= 10 && !selectedNames.includes(rider.rider_name)">
+                {{ rider.rider_name }}
+              </label>
+          </div>
+        </div>
+        <br>
+        <button type="submit" :disabled="isSubmitDisabled || selectedNames.length !== 10">Verstuur selectie</button>
+        <p>{{ buttonMessage }}</p>
+      </form>
+      <button type="button" @click="resetSelection">Reset</button>
+      <div>
+        <h2>Geselecteerde namen:</h2>
+        <ul>
+          <li v-for="(name, index) in selectedNames" :key="index">{{ name }}</li>
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
