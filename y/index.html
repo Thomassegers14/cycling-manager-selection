@@ -24,7 +24,7 @@
     }
 
     .teamElement {
-      width: calc(100% / 4);
+      width: calc(100% / 2);
       margin-bottom: 24px;
     }
 
@@ -47,6 +47,13 @@
       color: #212121;
       padding: 6px 2px;
       margin: 3px 6px 3px 0;
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
 
       &:hover {
         cursor: pointer;
@@ -63,6 +70,63 @@
       color: #F4511E;
     }
 
+    /* Hide the browser's default checkbox */
+    .riderElement input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  height: 16px;
+  width: 16px;
+  background-color: white;
+  border: 2px solid lightgrey;
+  border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.riderElement:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.riderElement input:checked ~ .checkmark {
+  background-color: #C62828;
+  border: 2px solid #C62828;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.riderElement input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.riderElement .checkmark:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
   </style>
   <body>
     <div id="app">
@@ -74,6 +138,7 @@
               <label v-for="(rider, riderIndex) in group.riders" :key="riderIndex" :class="getPointsClass(rider.points)">
                 <input type="checkbox" v-model="selectedNames" :value="rider.rider_name" :disabled="selectedNames.length >= 10 && !selectedNames.includes(rider.rider_name)">
                 {{ rider.rider_name }}
+                <span class="checkmark"></span>
               </label>
           </div>
         </div>
