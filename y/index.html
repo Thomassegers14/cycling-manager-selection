@@ -14,6 +14,45 @@
 
   </head>
   <style>
+    .counterTitle {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin: 12px 0 0;
+    }
+
+    .barChart {
+      width: 100%;
+      height: 24px;
+      margin-bottom: 12px;
+    }
+
+    .bgRect {
+      fill: black;
+      opacity: 0.1;
+    }
+
+    .bar {
+      fill: #B71C1C;
+    }
+
+    .axis text {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .axis__y text {
+      color: grey;
+      font-size: 0.8rem;
+    }
+
+    .axis__x--minor line {
+      stroke: white;
+    }
+
+    .axis__x--minor text {
+      display: none;
+    }
+
     .teamContainer {
       display: flex;
       flex-wrap: wrap;
@@ -131,22 +170,25 @@
   <body>
     <div id="app">
       <h1>Naamselectie Spel</h1>
+      <div>
+        <button type="submit" :disabled="isSubmitDisabled || selectedNames.length !== 12">Verstuur selectie</button>
+        <button type="button" @click="resetSelection">Reset</button>
+        <div class="barChart barChart--riders"></div>
+        <div class="barChart barChart--points"></div>
+      </div>
       <form @submit.prevent="submitSelection">
         <div class="teamContainer">
           <div v-for="(group, index) in groupedData" :key="index" class="teamElement">
             <h2 class="teamTitle">{{ group.team }}</h2>
               <label v-for="(rider, riderIndex) in group.riders" :key="riderIndex" :class="getPointsClass(rider.points)">
-                <input type="checkbox" v-model="selectedNames" :value="rider.rider_name" :disabled="selectedNames.length >= 10 && !selectedNames.includes(rider.rider_name)">
+                <input type="checkbox" v-model="selectedNames" :value="rider.rider_name" :disabled="selectedNames.length >= 12 && !selectedNames.includes(rider.rider_name)">
                 {{ rider.rider_name }}
                 <span class="checkmark"></span>
               </label>
           </div>
         </div>
         <br>
-        <button type="submit" :disabled="isSubmitDisabled || selectedNames.length !== 10">Verstuur selectie</button>
-        <p>{{ buttonMessage }}</p>
       </form>
-      <button type="button" @click="resetSelection">Reset</button>
       <div>
         <h2>Geselecteerde namen:</h2>
         <ul>
